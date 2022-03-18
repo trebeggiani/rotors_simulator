@@ -598,6 +598,7 @@
   </xacro:macro>
 
   <!-- Macro to add a VI-sensor stereo camera. -->
+  <!-- noise_stddev="0.007" -->
   <xacro:macro name="vi_sensor_stereo_camera_macro"
     params="namespace parent_link frame_rate origin_offset_x baseline_y origin_offset_z max_range">
     <xacro:stereo_camera_macro
@@ -612,7 +613,7 @@
       min_distance="0.02"
       max_distance="${max_range}"
       noise_mean="0.0"
-      noise_stddev="0.007"
+      noise_stddev="0.0"
       enable_visual="false"
       origin_offset_x="${origin_offset_x}"
       baseline_y="${baseline_y}"
@@ -663,7 +664,8 @@
             <height>480</height>
           </image>
           <clip>
-            <near>0.01</near>
+            <!-- <near>0.01</near> -->
+            <near>0.4</near>
             <far>${max_range}</far>
           </clip>
         </camera>
@@ -691,7 +693,8 @@
     </gazebo>
   </xacro:macro>
 
-  <!-- VI-Sensor Macro -->
+  <!-- VI-Sensor Macro: -->
+  
   <xacro:macro name="vi_sensor_macro" params="namespace parent_link enable_cameras enable_depth enable_ground_truth *origin">
     <!-- Vi Sensor Link -->
     <link name="${namespace}/vi_sensor_link">
@@ -723,9 +726,10 @@
     <!-- Cameras -->
     <xacro:if value="${enable_cameras}">
       <!-- Insert stereo pair. -->
+      <!-- max_range="30.0" -->
       <xacro:vi_sensor_stereo_camera_macro
         namespace="${namespace}" parent_link="${namespace}/vi_sensor_link"
-        frame_rate="30.0" origin_offset_x="0.015" baseline_y="${0.055*2}"
+        frame_rate="25.0" origin_offset_x="0.015" baseline_y="${0.055*2}"
         origin_offset_z="0.0065" max_range="30.0">
       </xacro:vi_sensor_stereo_camera_macro>
     </xacro:if>
@@ -734,7 +738,7 @@
     <xacro:if value="${enable_depth}">
       <xacro:vi_sensor_depth_macro
         namespace="${namespace}" parent_link="${namespace}/vi_sensor_link"
-        camera_suffix="depth" frame_rate="30.0" max_range="10.0">
+        camera_suffix="depth" frame_rate="25.0" max_range="10.0"> <!--max range was 10.0-->
         <origin xyz="0.015 0.055 0.0065" rpy="0 0 0" />
       </xacro:vi_sensor_depth_macro>
     </xacro:if>
@@ -773,21 +777,30 @@
       </xacro:odometry_plugin_macro>
     </xacro:if>
 
+
+    <!-- original params: -->
+    <!-- mass_imu_sensor="0.015" -->
+    <!-- gyroscope_noise_density="0.0003394" -->
+    <!-- gyroscope_random_walk="0.000038785" -->
+    <!-- gyroscope_turn_on_bias_sigma="0.0087" -->
+    <!-- accelerometer_noise_density="0.004" -->
+    <!-- accelerometer_random_walk="0.006" -->
+    <!-- accelerometer_turn_on_bias_sigma="0.1960"> -->
     <!-- ADIS16448 IMU. -->
     <xacro:imu_plugin_macro
       namespace="${namespace}"
       imu_suffix=""
       parent_link="${namespace}/vi_sensor_link"
       imu_topic="imu"
-      mass_imu_sensor="0.015"
-      gyroscope_noise_density="0.0003394"
-      gyroscope_random_walk="0.000038785"
+      mass_imu_sensor="0.0001"
+      gyroscope_noise_density="0.0"
+      gyroscope_random_walk="0.0"
       gyroscope_bias_correlation_time="1000.0"
-      gyroscope_turn_on_bias_sigma="0.0087"
-      accelerometer_noise_density="0.004"
-      accelerometer_random_walk="0.006"
+      gyroscope_turn_on_bias_sigma="0.0"
+      accelerometer_noise_density="0.0"
+      accelerometer_random_walk="0.0"
       accelerometer_bias_correlation_time="300.0"
-      accelerometer_turn_on_bias_sigma="0.1960">
+      accelerometer_turn_on_bias_sigma="0.0">
       <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
       <origin xyz="0.015 0 0.0113" rpy="0 0 0" />
     </xacro:imu_plugin_macro>
@@ -844,6 +857,8 @@
       <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
     </xacro:odometry_plugin_macro>
   </xacro:macro>
+  
+  <!-- END VI SENSOR MACRO -->
 
   <xacro:macro name="default_imu" params="namespace parent_link">
     <!-- ADIS16448 IMU. -->

@@ -115,6 +115,7 @@ void LeePositionControllerNode::CommandPoseCallback(
 
 void LeePositionControllerNode::MultiDofJointTrajectoryCallback(
     const trajectory_msgs::MultiDOFJointTrajectoryConstPtr& msg) {
+      
   // Clear all pending commands.
   command_timer_.stop();
   commands_.clear();
@@ -173,11 +174,13 @@ void LeePositionControllerNode::TimedCommandCallback(const ros::TimerEvent& e) {
 void LeePositionControllerNode::OdometryCallback(const nav_msgs::OdometryConstPtr& odometry_msg) {
 
   ROS_INFO_ONCE("LeePositionController got first odometry message.");
-
+  
+  // sets the odometry member variable from the msg
   EigenOdometry odometry;
   eigenOdometryFromMsg(odometry_msg, &odometry);
   lee_position_controller_.SetOdometry(odometry);
-
+  
+  // computes the rotor reference from the current state + reference
   Eigen::VectorXd ref_rotor_velocities;
   lee_position_controller_.CalculateRotorVelocities(&ref_rotor_velocities);
 

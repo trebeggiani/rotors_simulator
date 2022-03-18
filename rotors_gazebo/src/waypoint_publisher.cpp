@@ -30,9 +30,12 @@
 int main(int argc, char** argv) {
   ros::init(argc, argv, "waypoint_publisher");
   ros::NodeHandle nh;
+  // ros::Publisher trajectory_pub =
+  //     nh.advertise<trajectory_msgs::MultiDOFJointTrajectory>(
+  //     mav_msgs::default_topics::COMMAND_TRAJECTORY, 10);
   ros::Publisher trajectory_pub =
       nh.advertise<trajectory_msgs::MultiDOFJointTrajectory>(
-      mav_msgs::default_topics::COMMAND_TRAJECTORY, 10);
+      "/firefly/command/trajectory", 10);
 
   ROS_INFO("Started waypoint_publisher.");
 
@@ -55,8 +58,8 @@ int main(int argc, char** argv) {
   trajectory_msgs::MultiDOFJointTrajectory trajectory_msg;
   trajectory_msg.header.stamp = ros::Time::now();
 
-  Eigen::Vector3d desired_position(std::stof(args.at(1)), std::stof(args.at(2)),
-                                   std::stof(args.at(3)));
+  Eigen::Vector3d desired_position(std::stof(args.at(1))-0.23, std::stof(args.at(2)),
+                                   std::stof(args.at(3))+0.15);
 
   double desired_yaw = std::stof(args.at(4)) * DEG_2_RAD;
 

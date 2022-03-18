@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
+
   <arg name="enable_cameras" default="false"/>
   <arg name="enable_depth" default="false"/>
   <arg name="enable_ground_truth" default="false"/>

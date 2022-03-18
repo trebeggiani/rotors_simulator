@@ -37,4 +37,8 @@
          -model $(arg namespace)"
    respawn="false" output="screen">
   </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="base_start_broadcaster" args="$(arg x) $(arg y) $(arg z) 0 0 0 world odom 100" />
+
 </launch>
+

@@ -445,6 +445,7 @@
   </xacro:macro>
 
   <!-- VI-Sensor Macro -->
+  
   <xacro:macro name="vi_sensor_macro" params="namespace parent_link *origin">
     <!-- Vi Sensor Link -->
     <link name="${namespace}/vi_sensor_link">
@@ -536,7 +537,7 @@
       namespace="${namespace}"
       imu_suffix=""
       parent_link="${namespace}/vi_sensor_link"
-      imu_topic="/imu"
+      _topic="/imu"
       mass_imu_sensor="0.015"
       gyroscope_noise_density="0.0003394"
       gyroscopoe_random_walk="0.000038785"
@@ -550,5 +551,8 @@
       <origin xyz="0.015 0 0.0113" rpy="0 0 0" />
     </xacro:imu_plugin_macro>
   </xacro:macro>
+  
+ <!-- END VI-Sensor Macro -->
+  
 
 </robot>

@@ -47,6 +47,12 @@ GazeboImuPlugin::~GazeboImuPlugin() {
 }
 
 void GazeboImuPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
+
+    std::cout
+      << std::endl
+      << "GazeboImuPlugin: The plugin is attached to model "
+      << _model->GetName() << std::endl << std::endl;
+
   if (kPrintOnPluginLoad) {
     gzdbg << __FUNCTION__ << "() called." << std::endl;
   }
