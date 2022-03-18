@@ -90,7 +90,7 @@
 
     <model name="kitchen_dining">
       <link name="kitchen_dining_link">
-        <pose>4 12 -0.25 0 0 3.14159</pose>
+        <pose>13 5.5 0.024 0 0 -1.57</pose>
 
         <collision name="kitchen_dining_collision">
           <geometry>
